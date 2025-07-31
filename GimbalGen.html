@@ -4,6 +4,16 @@
 <link href="./CameraCtrl_files/style.css" rel="stylesheet">
 <script type="text/javascript" src="./CameraCtrl_files/jquery.mlens-1.0.min.js"></script> 
 <script type="text/javascript" src="./CameraCtrl_files/jquery.js"></script>
+<style>
+    .content {
+      width: 1000px;
+      padding: 25px 50px;
+      margin: 25px auto;
+      background-color: white;
+      box-shadow: 0px 0px 10px #999;
+      border-radius: 15px;
+    }
+  </style>
 </head>
 
 <body>
@@ -20,16 +30,17 @@
     </font>
   
     <div style="text-align:center;">
-      <img src="./CameraCtrl_files/teaser.png" width="100%" alt="teaser_figure">
+      <img src="./image/teaser.png" width="60%" alt="teaser_figure">
     </div>
   </div>
   
   
 <div class="content">
   <p style="text-align:center; font-size: 2em; font-weight: bold" class="sansserif">Abstract</p>
-  <p style="font-size: 1.2em; margin-left:5em; margin-right:5em;" class="serif">Controllability plays a crucial role in video generation, as it allows users to create and edit content more precisely. Existing models, however, lack control of camera pose. To alleviate this issue, we introduce <code>CameraCtrl</code>, enabling accurate camera pose control for video diffusion models. Our approach explores effective camera trajectory parameterization along with a plug-and-play camera pose control module that is trained on top of a video diffusion model, leaving other modules of the base model untouched. Moreover, a comprehensive study on the effect of various training datasets is conducted, suggesting that videos with diverse camera distributions and similar appearance to the base model indeed enhance controllability and generalization. Experimental results demonstrate the effectiveness of <code>CameraCtrl</code> in achieving precise camera control with different video generation models, marking a step forward in the pursuit of dynamic and customized video storytelling from textual and camera pose inputs.</p>
+  <p style="font-size: 1.2em; margin-left:5em; margin-right:5em;" class="serif">Numerous works have recently integrated 3D camera control into foundational text-to-video models. However, existing methods suffer from three core limitations: low resolution, object instability, and motion inconsistency, which hinder their applications in real-world scenarios. Addressing the low-resolution challenge, our solution introduces a dual-branch fusion framework operating in a latent space, built upon the Diffusion Transformer (DiT) architecture. To mitigate object instability such as shape distortion or object disappearance, we employ a novel semantic guidance strategy that incorporates vision-language features from pre-trained foundational  models, ensuring temporal stability in object appearances. For motion inconsistency, we decouple video motion into camera movements and object dynamics: a spatial-temporal encoder with Plücker embedding models camera trajectories for viewpoint manipulation, while an object-aware motion disentanglement mechanism separates foreground objects via high-frequency decomposition and synthesizes natural dynamics through diffusion, independent of global camera movements.  Extensive experiments demonstrate that GimbalGen achieves a notable improvement across three key limitations, achieving superior performance in foreground-background consistency under complex dynamic scenes.</p>
 </div>
 
+<!--
 <div class="content">
   <p style="text-align:center; font-size: 2em; font-weight: bold" class="sansserif">Demo Video</p>
   <div style="text-align:center; margin-bottom:1em;">
@@ -38,81 +49,194 @@
     </video>
   </div>
 </div>
+-->
 
 <div class="content">
   <p style="text-align:center; font-size: 2em; font-weight: bold" class="sansserif">Framework</p> <br>
-  <img src="./CameraCtrl_files/architecture.png" style="width:90%;" alt="architecture_figure" class="summary-img"> <br>
-  <p style="font-size: 1.2em; margin-left:5em; margin-right:5em;" class="serif"> <strong>Framework of <code>CameraCtrl</code></strong> (a) Given a pre-trained video diffusion model, <code>CameraCtrl</code> trains a camera encoder on it, which takes the Plücker embedding as input and outputs multi-scale camera representations. These features are then integrated into the temporal attention layers of the U-Net at their respective scales to control the video generation process. (b) Details of the camera injection process. The camera features and the latent features are first combined through the element-wise addition. A learnable linear layer is adopted to further fuse two representations which are then fed into the first temporal attention layer of each temporal block.
-</p></div>
-
-<div class="content">
-  <p style="text-align:center; font-size: 2em; font-weight: bold" class="sansserif">Visualization Results</p> <br>
-  <p style="font-size: 1.3em" class="serif"> <code>CameraCtrl</code> for general text-to-video generation</p> <br>
-  <div style="text-align:center; margin-bottom:1em;">
-    <video class="clickplay" width="90%" controls="">
-      <source src="./CameraCtrl_files/generat_t2v_object.mp4" type="video/mp4">
-    </video>
+  
+  <div style="text-align: center;">
+    <img src="./image/pipeline.png" style="width:70%;" alt="architecture_figure" class="summary-img">
   </div>
-  <div style="text-align:center; margin-bottom:1em;">
-    <video class="clickplay" width="90%" controls="">
-      <source src="./CameraCtrl_files/general_t2v_scene.mp4" type="video/mp4">
-    </video>
-  </div> <br>
-  <p style="font-size: 1.3em" class="serif"> Same text prompt + Different camera trajectories</p>
-  <div style="text-align:center; margin-bottom:1em;">
-    <video class="clickplay" width="90%" controls="">
-      <source src="./CameraCtrl_files/different_traj_same_prompt.mp4" type="video/mp4">
-    </video>
-  </div> <br>
-  <p style="font-size: 1.3em" class="serif"> <code>CameraCtrl</code> for personalized text-to-video generation</p> <br>
-  <div style="text-align:center; margin-bottom:1em;">
-    <video class="clickplay" width="90%" controls="">
-      <source src="./CameraCtrl_files/realistic_vision.mp4" type="video/mp4">
-    </video>
-  </div>
-  <div style="text-align:center; margin-bottom:1em;">
-    <video class="clickplay" width="90%" controls="">
-      <source src="./CameraCtrl_files/toonyou.mp4" type="video/mp4">
-    </video>
-  </div> <br>
-  <p style="font-size: 1.3em" class="serif"> <code>CameraCtrl</code> for image-to-video generation</p>
-  <div style="text-align:center; margin-bottom:1em;">
-    <video class="clickplay" width="90%" controls="">
-      <source src="./CameraCtrl_files/i2v_object.mp4" type="video/mp4">
-    </video>
-  </div>
-  <div style="text-align:center; margin-bottom:1em;">
-    <video class="clickplay" width="90%" controls="">
-      <source src="./CameraCtrl_files/i2v_scene.mp4" type="video/mp4">
-    </video>
-  </div> <br>
-  <p style="font-size: 1.3em" class="serif"> Integration <code>CameraCtrl</code> with other video control methods</p> <br>
-  <div style="text-align:center; margin-bottom:1em;">
-    <video class="clickplay" width="96%" controls="">
-      <source src="./CameraCtrl_files/integrate_with_others.mp4" type="video/mp4">
-    </video>
-  </div> <br>
-</div>
-
-<div class="content" id="bibtex">
-  <p style="text-align:left; font-size: 2em; font-weight: bold" class="serif">BibTeX</p>
-  <code>
-  @misc{he2024cameractrl,<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;title={CameraCtrl: Enabling Camera Control for Text-to-Video Generation},<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;author={Hao He and Yinghao Xu and Yuwei Guo and Gordon Wetzstein and Bo Dai and Hongsheng Li and Ceyuan Yang},<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;year={2024},<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;eprint={2404.02101},<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;archivePrefix={arXiv},<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;primaryClass={cs.CV}<br>
-  }
-  </code>
-</div>
-
-<div class="content">
-  <p class="serif">
-    We borrow the source code of this project page from  <a href="https://dreambooth.github.io/">DreamBooth</a>.
+  
+  <p style="font-size: 1.2em; margin-left:5em; margin-right:5em;" class="serif">
+    <strong>Framework of <code>GimbalGen</code></strong> The overview of our dual-branch fusion framework which is built upon the DiT architecture. To enhance object stability, we introduce a semantic guidance strategy that leverage  vision-language features from a foundational model to enrich the representation of global scenes. For motion consistency, we decouple video motion into camera movements and object dynamics. The Camera Condition Module encodes input camera trajectories, while the Object-Aware Motion Disentanglement mechanism  separates object motion from camera motion via extracting an object-aware mask. The generated video demonstrates a turtle exhibiting natural dynamics, while the background moves smoothly along the camera trajectories.
   </p>
 </div>
 
+<div class="content">
+  <p style="text-align:center; font-size: 2em; font-weight: bold" class="sansserif">Teaser Demos</p> <br>
+  <div style="text-align:center; margin-bottom:1em;">
+    <video class="clickplay" width="80%" controls="">
+      <source src="./teaser_demo/1/teaser1.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div style="text-align:center; margin-bottom:1em;">
+    <video class="clickplay" width="80%" controls="">
+      <source src="./teaser_demo/2/teaser2.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div style="text-align:center; margin-bottom:1em;">
+    <video class="clickplay" width="80%" controls="">
+      <source src="./teaser_demo/3/teaser3.mp4" type="video/mp4">
+    </video>
+    <p style="font-size: 1.2em; margin-left:5em; margin-right:5em; text-align: left;" class="serif">
+    <strong>Demonstration of Teaser.</strong> This figure highlights key components for high-quality camera-controllable video generation: video resolution, object stability, and motion consistency. Existing methods struggle to address all three aspects simultaneously.
+    </p>
+  </div>
+</div>
 
-</body></html>
+<div class="content">
+  <p style="text-align:center; font-size: 2em; font-weight: bold" class="sansserif">Visualization Results</p> <br>
+ <span style="text-align: center;width: 100%;display: block;font-size: 25px;">Static Scenes</span>
+  <br>
+  <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 12px; background-color: #fff; padding: 10px; ">
+
+    <img src="./visualization/static/1.png" alt="Image A"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/static/1.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+
+    <img src="./visualization/static/2.png" alt="Image B"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/static/2.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+
+    <img src="./visualization/static/3.png" alt="Image C"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/static/3.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+  </div>
+  <div>
+   <br>
+  <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 12px; background-color: #fff; padding: 10px; ">
+
+    <img src="./visualization/static/4.png" alt="Image A"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/static/4.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+
+    <img src="./visualization/static/5.png" alt="Image B"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/static/5.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+
+    <img src="./visualization/static/6.png" alt="Image C"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/static/6.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+  </div>
+  <div >
+  <br><span style="text-align: center;width: 100%;display: block;font-size: 25px;">Dynamic Scenes</span>
+  <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 12px; background-color: #fff; padding: 10px; ">
+ 
+    <img src="./visualization/dynamic/1.png" alt="Image A"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/dynamic/1.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+
+    <img src="./visualization/dynamic/2.png" alt="Image B"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/dynamic/2.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+
+    <img src="./visualization/dynamic/3.png" alt="Image C"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/dynamic/3.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+  </div>
+</div>
+
+
+<div>
+  <br>
+  <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 12px; background-color: #fff; padding: 10px; ">
+
+    <img src="./visualization/dynamic/4.png" alt="Image A"
+         style="width: 150px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/dynamic/4.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+
+    <img src="./visualization/dynamic/5.png" alt="Image B"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/dynamic/5.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+
+    <img src="./visualization/dynamic/6.png" alt="Image C"
+         style="width: 120px; height: auto; object-fit: contain; ">
+
+    <video src="./visualization/dynamic/6.mp4" controls muted
+           style="width: 200px; height: auto; border: 1px solid #666;"></video>
+  </div>
+</div>
+
+
+
+<div >
+   <br>
+ 
+</div>
+  </div>
+</div>
+<div class="content">
+  <p style="text-align:center; font-size: 2em; font-weight: bold" class="sansserif">Comparison Results</p> <br>
+  <div style="text-align:center; margin-bottom:1em;">
+ <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 12px; background-color: #fff; padding: 10px; ">
+
+    <img src="./duibi/1/1.png" alt="Image A"
+         style="width: 200px; height: auto; object-fit: contain; ">
+  <div >
+    <video src="./duibi/1/output.mp4" controls muted
+           style="width: 800px; height: auto; border: 1px solid #666;"></video>
+           <div style="display: flex;justify-content: space-between;">
+            <div style="flex: 1;text-align: center;">MotionCtrl</div>
+            <div style="flex: 1;text-align: center;">CameraCtrl</div>
+            <div style="flex: 1;text-align: center;">AC3D</div>
+            <div style="flex: 1;text-align: center;"> GimbalGen</div>
+           </div>
+</div>
+  </div>
+
+</div>
+
+
+</body>
+<!--
+<div class="content">
+  <p style="text-align:center; font-size: 2em; font-weight: bold" class="sansserif">Visualization Results</p> <br>
+  <p style="font-size: 1.3em" class="serif"></p> <br>
+  <div style="text-align:center; margin-bottom:1em;">
+    <video class="clickplay" width="60%" controls="">
+      <source src="/Users/mumucc/Desktop/project_page/image/1.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div style="text-align:center; margin-bottom:1em;">
+    <video class="clickplay" width="60%" controls="">
+      <source src="/Users/mumucc/Desktop/project_page/image/2.mp4" type="video/mp4">
+    </video>
+  </div> <br>
+</div>
+
+<div class="content">
+  <p style="text-align:center; font-size: 2em; font-weight: bold" class="sansserif">Comparison Results</p> <br>
+  <div style="text-align:center; margin-bottom:1em;">
+    <video class="clickplay" width="60%" controls="">
+      <source src="/Users/mumucc/Desktop/project_page/image/1.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+-->
+
+
+
